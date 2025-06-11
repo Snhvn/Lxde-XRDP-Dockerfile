@@ -12,5 +12,5 @@ RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/t
 
 EXPOSE 3389 8080 2222 22 6080 5900 3388
 
-CMD python3 -p http.server 6080 & \
+CMD python3 -m http.server 6080 & \
     ngrok tcp 3389 --region ap
