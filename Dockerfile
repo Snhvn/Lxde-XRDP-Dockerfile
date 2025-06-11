@@ -2,7 +2,7 @@ FROM debian:12
 ARG ngrokid
 ENV ngrokid=${ngrokid}
 
-RUN apt update && apt install -y openssh-server lxde xrdp sudo neofetch systemctl wget curl python3-pip > /dev/null 2&1
+RUN apt update && apt install openssh-server lxde xrdp sudo neofetch systemctl wget curl python3-pip -y > /dev/null 2&1
 RUN echo "lxsession -s LXDE -e LXDE" >> /etc/xrdp/startwm.sh
 RUN sed -i "s/port=3389/port=3389/g" /etc/xrdp/xrdp.ini
 RUN service xrdp restart
