@@ -1,4 +1,6 @@
 FROM debian:stable
+ARG ngrokid
+ENV ngrokid=${ngrokid}
 
 RUN apt update && apt upgrade -y && apt install -y lxde xrdp sudo neofetch systemctl wget curl python3-pip && \
     apt clean
@@ -11,9 +13,9 @@ WORKDIR /app
 
 #cài ngrok
 RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok && \
-    ngrok config add-authtoken 
+    ngrok config add-authtoken ${ngrokid}
 
 EXPOSE 3389 8080 2222 22 6080 5900 3388
 
 CMD python3 -m http.server 6080 & \
-    ngrok tcp 3389 --region ap
+    echo "Ngrok Running ... Please Check Agents ngrok.com and please connect Rdp" && ngrok tcp 3389 --region ap
