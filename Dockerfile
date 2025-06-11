@@ -1,0 +1,16 @@
+FROM debian:stable
+
+RUN apt update && apt upgrade -y && apt install -y lxde xrdp sudo neofetch systemctl wget curl python3-pip && \
+    apt clean
+RUN echo "lxsession -s LXDE -e LXDE" >> /etc/xrdp/startwm.sh
+RUN sed -i "s/port=3389/port=3389/g" /etc/xrdp/xrdp.ini
+RUN service xrdp restart
+
+#cài ngrok
+RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok && \
+    ngrok config add-authtoken 
+
+EXPOSE 3389 8080 2222 22 6080 5900 3388
+
+CMD python3 -p http.server 6080 & \
+    ngrok tcp 3389 --region ap
