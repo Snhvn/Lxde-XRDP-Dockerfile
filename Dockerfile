@@ -2,7 +2,7 @@ FROM debian:12
 ARG ngrokid
 ENV ngrokid=${ngrokid}
 
-RUN apt update && apt upgrade -y && apt install -y lxde xrdp sudo neofetch systemctl wget curl python3-pip && \
+RUN apt update && apt install -y lxde xrdp sudo neofetch systemctl wget curl python3-pip default-logind && \
     apt clean
 RUN echo "lxsession -s LXDE -e LXDE" >> /etc/xrdp/startwm.sh
 RUN sed -i "s/port=3389/port=3389/g" /etc/xrdp/xrdp.ini
